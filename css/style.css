@@ -54,7 +54,6 @@ body.mudar-senha{
 .form form{
     width: 100%;
     margin: 0 auto;
-    text-align: center;
 }
 
 /* Campos e labels */
@@ -88,7 +87,7 @@ body.mudar-senha{
     left: 5px;
 }
 
-.form form input, .form form textarea{
+.form form .inputs, .form form textarea{
     padding: 5px;
     position: absolute;
     background: none;
@@ -97,7 +96,7 @@ body.mudar-senha{
     width: 100%;
 }
 
-.form form input{
+.form form .inputs{
     border-bottom: 2px solid #76767681;
     height: 40px;
     bottom: 0;
@@ -110,6 +109,19 @@ body.mudar-senha{
     height: 100px;
     left: 0;
     top: 0;
+}
+
+.form form .campos.check h4{
+    color: white;
+    margin: .5rem 0;
+}
+
+.form form .campos.check .labelCheck{
+    padding: .5rem;
+    color: #767676;
+}
+.form form .campos.check .campos.input{
+    margin: 3rem 0;
 }
 
 

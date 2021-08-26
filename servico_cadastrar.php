@@ -11,7 +11,8 @@
         $nome = filter_input(INPUT_POST, 'nome');
         $valor = filter_input(INPUT_POST, 'valor');
         $descricao = filter_input(INPUT_POST, 'descricao');
-        $elementos = filter_input(INPUT_POST, 'elementos');
+        $elementos = implode(', ', $_POST['elemento']);
+
 
         if($nome == ''){
             $erro = 'O campo nome é obrigatório!';
@@ -64,12 +65,21 @@
                     <input type="number" name="valor" id="valor" class="inputs" step="0.01" min="0" title="Digite o valor do serviço" value="<?=$valor?>">
                 </div>
                 <div class="campos text">
-                    <label for="descricao" class="labels labelText">Descrição</label>
+                    <label for="descricao" class="labels labelText" id="labelText">Descrição</label>
                     <textarea name="descricao" id="descricao" class="Text" title="Digite a descrição do serviço."><?=$descricao?></textarea>
                 </div>
-                <div class="campos text">
-                    <label for="elementos" class="labels labelText">Peças Entregues</label>
-                    <textarea name="elementos" id="elementos" class="Text" title="Digite as peças entregue pelo cliente, como carregador, gabinete, etc..."><?=$elementos?></textarea>
+                
+                <div class="campos check">
+                    <h4>Elementos Entregues</h4>
+                    <input type="checkbox" name="elemento[]" id="gabinete" value="Gabinete"><label for="gabinete" class="labelCheck">Gabinete</label><br>
+                    <input type="checkbox" name="elemento[]" id="carregador" value="Carregador"><label for="carregador" class="labelCheck">Carregador</label><br>
+                    <input type="checkbox" name="elemento[]" id="hd-externo" value="HD Externo"><label for="hd-externo" class="labelCheck">HD Externo</label><br>
+                    
+
+                    <div class="campos input">
+                        <label for="elementos" class="labels labelInput">Outros(Separe por vírgulas)</label>
+                        <input type="text" name="elemento[]" class="inputs" id="elementos">
+                    </div>
                 </div>
                 
                 <button>Cadastrar</button>
