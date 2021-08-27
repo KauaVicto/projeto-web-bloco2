@@ -4,7 +4,7 @@ const inputText = document.getElementById('descricao')
 const labelText = document.getElementById('labelText')
 
 for(let i = 0;i < 3;i++){
-    inputs[i].addEventListener('focus', () => {
+    inputs[i].addEventListener('focus', function inputFocus(){
         if(inputs[i].value == ''){
             $(labellogin[i]).css({
                 bottom: '40px',
@@ -14,8 +14,7 @@ for(let i = 0;i < 3;i++){
             })
         }
     })
-
-    inputs[i].addEventListener('blur', () => {
+    inputs[i].addEventListener('blur', function inputBlur(){
         if(inputs[i].value == ''){
             $(labellogin[i]).css({
                 bottom: '4px',
@@ -23,7 +22,7 @@ for(let i = 0;i < 3;i++){
                 'font-size': '1.1rem',
                 opacity: '.56'
             })
-        }
+        }        
     })
 }
 
@@ -63,22 +62,21 @@ function carregar(){
             labellogin[i].style.fontSize = '1rem'
             labellogin[i].style.opacity = '1'
         }
-
-        if($(inputText[i]).val() != ''){
-            $(labelText[i]).css({
-                'top': '-30px',
-                left: '1px',
-                'font-size': '1rem',
-                opacity: '1'
-            })
-        }
-        if($(inputText[i]).val() == ''){
-            $(labelText[i]).css({
-                'top': '4px',
-                left: '3px',
-                'font-size': '1.1rem',
-                opacity: '.56'
-            })
-        }
+    }
+    if($(inputText).val() != ''){
+        $(labelText).css({
+            'top': '-30px',
+            left: '1px',
+            'font-size': '1rem',
+            opacity: '1'
+        })
+    }
+    if($(inputText).val() == ''){
+        $(labelText).css({
+            'top': '4px',
+            left: '3px',
+            'font-size': '1.1rem',
+            opacity: '.56'
+        })
     }
 }

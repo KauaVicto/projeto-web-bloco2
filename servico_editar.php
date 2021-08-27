@@ -1,6 +1,5 @@
 <?php
     require_once 'includes/conectaBD.php';
-
     // Declaração das variáveis
     $erro = '';
     $msg = '';
@@ -8,41 +7,20 @@
     $valor = '';
     $descricao = '';
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){ // Teste para verificar se o botão foi apertado
+    $id = filter_input(INPUT_GET, 'id');
 
-        // Recebimento dos dados
-        $nome = filter_input(INPUT_POST, 'nome');
-        $valor = filter_input(INPUT_POST, 'valor');
-        $descricao = filter_input(INPUT_POST, 'descricao');
-        $elementos = $_POST['elemento'];
+    $sql = 'SELECT * FROM servicos WHERE id = ?';
+    $prepare = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($prepare, 'i', $id);
 
-        if(end($elementos) == ''){ // Verifica se o campo elementos foi preenchido, caso não remove o último valor do array
-            array_pop($elementos);
-        }
-        $elementos = implode(', ', $elementos); // Junta todos os valores do array elementos em uma string
+    if(mysqli_stmt_execute($prepare)){
+        $result = mysqli_stmt_get_result($prepare);
+        $servico = mysqli_fetch_assoc($result);
+        $nome = $servico['nome'];
+        $valor = $servico['valor'];
+        $descricao = $servico['descricao'];
 
-        if($nome == ''){ // Testa o campo nome
-            $erro = 'O campo nome é obrigatório!';
-        }else if($valor == ''){ // Testa o campo valor
-            $erro = 'O campo valor é obrigatório!';
-        }else{ // Realiza o cadastro
-
-            $sql = 'INSERT INTO servicos(nome, valor, descricao, elementos) VALUES (?,?,?,?)';
-
-            $prepare = mysqli_prepare($con, $sql);
-            mysqli_stmt_bind_param($prepare, 'sdss', $nome, $valor, $descricao, $elementos);
-            
-            if(mysqli_stmt_execute($prepare)){
-                $msg = 'Serviço cadastrado com sucesso!';
-                $nome = '';
-                $valor = '';
-                $descricao = '';
-                $elementos = '';
-            }else{
-                $erro = 'Erro ao cadastrar o serviço, verifique os dados e/ou tente mais tarde.';
-            }
-        }
-
+        $elementos = explode(', ', $servico['elementos']);
     }
 
 ?>
@@ -80,9 +58,11 @@
                 
                 <div class="campos check">
                     <h4>Elementos Entregues</h4>
-                    <input type="checkbox" name="elemento[]" id="gabinete" value="Gabinete"><label for="gabinete" class="labelCheck">Gabinete</label><br>
-                    <input type="checkbox" name="elemento[]" id="carregador" value="Carregador"><label for="carregador" class="labelCheck">Carregador</label><br>
-                    <input type="checkbox" name="elemento[]" id="hd-externo" value="HD Externo"><label for="hd-externo" class="labelCheck">HD Externo</label><br>
+                    <input type="checkbox" name="elemento[]" id="gabinete" value="Gabinete" <?php echo in_array('Gabinete', $elementos) ? 'checked' : ''; ?> ><label for="gabinete" class="labelCheck">Gabinete</label><br>
+
+                    <input type="checkbox" name="elemento[]" id="carregador" value="Carregador" <?php echo in_array('Carregador', $elementos) ? 'checked' : ''; ?> ><label for="carregador" class="labelCheck">Carregador</label><br>
+
+                    <input type="checkbox" name="elemento[]" id="hd-externo" value="HD Externo" <?php echo in_array('HD Externo', $elementos) ? 'checked' : ''; ?> ><label for="hd-externo" class="labelCheck">HD Externo</label><br>
                     
 
                     <div class="campos input">
