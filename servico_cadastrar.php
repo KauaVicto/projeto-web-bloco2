@@ -14,12 +14,12 @@
         $nome = filter_input(INPUT_POST, 'nome');
         $valor = filter_input(INPUT_POST, 'valor');
         $descricao = filter_input(INPUT_POST, 'descricao');
-        $elementos = $_POST['elemento'];
+        $itens = $_POST['item'];
 
-        if(end($elementos) == ''){ // Verifica se o campo elementos foi preenchido, caso não remove o último valor do array
-            array_pop($elementos);
+        if(end($itens) == ''){ // Verifica se o campo itens foi preenchido, caso não remove o último valor do array
+            array_pop($itens);
         }
-        $elementos = implode(', ', $elementos); // Junta todos os valores do array elementos em uma string
+        $itens = implode(', ', $itens); // Junta todos os valores do array itens em uma string
 
         if($nome == ''){ // Testa o campo nome
             $erro = 'O campo nome é obrigatório!';
@@ -27,17 +27,17 @@
             $erro = 'O campo valor é obrigatório!';
         }else{ // Realiza o cadastro
 
-            $sql = 'INSERT INTO servicos(nome, valor, descricao, elementos) VALUES (?,?,?,?)';
+            $sql = 'INSERT INTO servicos(nome, valor, descricao, itens) VALUES (?,?,?,?)';
 
             $prepare = mysqli_prepare($con, $sql);
-            mysqli_stmt_bind_param($prepare, 'sdss', $nome, $valor, $descricao, $elementos);
+            mysqli_stmt_bind_param($prepare, 'sdss', $nome, $valor, $descricao, $itens);
             
             if(mysqli_stmt_execute($prepare)){
                 $msg = 'Serviço cadastrado com sucesso!';
                 $nome = '';
                 $valor = '';
                 $descricao = '';
-                $elementos = '';
+                $itens = '';
             }else{
                 $erro = 'Erro ao cadastrar o serviço, verifique os dados e/ou tente mais tarde.';
             }
@@ -79,15 +79,15 @@
                 </div>
                 
                 <div class="campos check">
-                    <h4>Elementos Entregues</h4>
-                    <input type="checkbox" name="elemento[]" id="gabinete" value="Gabinete"><label for="gabinete" class="labelCheck">Gabinete</label><br>
-                    <input type="checkbox" name="elemento[]" id="carregador" value="Carregador"><label for="carregador" class="labelCheck">Carregador</label><br>
-                    <input type="checkbox" name="elemento[]" id="hd-externo" value="HD Externo"><label for="hd-externo" class="labelCheck">HD Externo</label><br>
+                    <h4>itens Entregues</h4>
+                    <input type="checkbox" name="item[]" id="gabinete" value="Gabinete"><label for="gabinete" class="labelCheck">Gabinete</label><br>
+                    <input type="checkbox" name="item[]" id="carregador" value="Carregador"><label for="carregador" class="labelCheck">Carregador</label><br>
+                    <input type="checkbox" name="item[]" id="hd-externo" value="HD Externo"><label for="hd-externo" class="labelCheck">HD Externo</label><br>
                     
 
                     <div class="campos input">
-                        <label for="elementos" class="labels labelInput">Outros(Separe por vírgulas)</label>
-                        <input type="text" name="elemento[]" class="inputs" id="elementos">
+                        <label for="itens" class="labels labelInput">Outros(Separe por vírgulas)</label>
+                        <input type="text" name="item[]" class="inputs" id="itens">
                     </div>
                 </div>
                 

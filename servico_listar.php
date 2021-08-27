@@ -55,7 +55,7 @@
                             <td><?= $servico['nome'] ?></td>
                             <td><?= $servico['descricao'] ?></td>
                             <td>R$<?= number_format($servico['valor'], 2, ',', '.')  ?></td>
-                            <td><?= $servico['elementos'] ?></td>
+                            <td><?= $servico['itens'] ?></td>
                             <td>
                                 <a href="servico_editar.php?id=<?=$servico['id']?>">Editar</a>
                                 <a href="servico_finalizar.php?id=<?=$servico['id']?>">Finalizar</a>
