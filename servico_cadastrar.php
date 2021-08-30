@@ -4,14 +4,18 @@
     // Declaração das variáveis
     $erro = '';
     $msg = '';
-    $nome = '';
+    $nome_servico = '';
+    $nome_cliente = '';
     $valor = '';
     $descricao = '';
+
+    $listaItens = ['Gabinete', 'Carregador', 'HD_Externo', 'Notebook']; // Lista dos itens já salvos
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){ // Teste para verificar se o botão foi apertado
 
         // Recebimento dos dados
-        $nome = filter_input(INPUT_POST, 'nome');
+        $nome_cliente = filter_input(INPUT_POST, 'nome_cliente');
+        $nome_servico = filter_input(INPUT_POST, 'nome_servico');
         $valor = filter_input(INPUT_POST, 'valor');
         $descricao = filter_input(INPUT_POST, 'descricao');
         $itens = $_POST['item'];
@@ -21,20 +25,23 @@
         }
         $itens = implode(', ', $itens); // Junta todos os valores do array itens em uma string
 
-        if($nome == ''){ // Testa o campo nome
-            $erro = 'O campo nome é obrigatório!';
+        if($nome_cliente == ''){ // Testa o campo nome do cliente
+            $erro = 'O campo Nome do Cliente é obrigatório!';
+        }else if($nome_servico == ''){
+            $erro = 'O campo Nome do Serviço é obrigatório!';
         }else if($valor == ''){ // Testa o campo valor
             $erro = 'O campo valor é obrigatório!';
         }else{ // Realiza o cadastro
 
-            $sql = 'INSERT INTO servicos(nome, valor, descricao, itens) VALUES (?,?,?,?)';
+            $sql = 'INSERT INTO servicos(nome_cliente, nome_servico, descricao, valor, itens) VALUES (?,?,?,?,?)';
 
             $prepare = mysqli_prepare($con, $sql);
-            mysqli_stmt_bind_param($prepare, 'sdss', $nome, $valor, $descricao, $itens);
+            mysqli_stmt_bind_param($prepare, 'sssds', $nome_cliente, $nome_servico, $descricao, $valor, $itens);
             
             if(mysqli_stmt_execute($prepare)){
                 $msg = 'Serviço cadastrado com sucesso!';
-                $nome = '';
+                $nome_cliente = '';
+                $nome_servico = '';
                 $valor = '';
                 $descricao = '';
                 $itens = '';
@@ -65,33 +72,42 @@
         <section class="form">
             <h2>Cadastrar Serviço</h2>
             <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
-                <div class="campos input">
-                    <label for="nome" class="labels labelInput">Nome do Serviço</label>
-                    <input type="text" name="nome" id="nome" class="inputs" autocomplete="off" title="Digite o nome do serviço." value="<?=$nome?>">
-                </div>
-                <div class="campos input">
-                    <label for="valor" class="labels labelInput">Valor R$</label>
-                    <input type="number" name="valor" id="valor" class="inputs" step="0.01" min="0" title="Digite o valor do serviço" value="<?=$valor?>">
-                </div>
-                <div class="campos text">
-                    <label for="descricao" class="labels labelText" id="labelText">Descrição</label>
-                    <textarea name="descricao" id="descricao" class="Text" title="Digite a descrição do serviço."><?=$descricao?></textarea>
-                </div>
-                
-                <div class="campos check">
-                    <h4>itens Entregues</h4>
-                    <input type="checkbox" name="item[]" id="gabinete" value="Gabinete"><label for="gabinete" class="labelCheck">Gabinete</label><br>
-                    <input type="checkbox" name="item[]" id="carregador" value="Carregador"><label for="carregador" class="labelCheck">Carregador</label><br>
-                    <input type="checkbox" name="item[]" id="hd-externo" value="HD Externo"><label for="hd-externo" class="labelCheck">HD Externo</label><br>
-                    
-
+                <div class="sep">
                     <div class="campos input">
-                        <label for="itens" class="labels labelInput">Outros(Separe por vírgulas)</label>
-                        <input type="text" name="item[]" class="inputs" id="itens">
+                        <label for="nome_cliente" class="labels labelInput">Nome do Cliente</label>
+                        <input type="text" name="nome_cliente" id="nome_cliente" class="inputs" autocomplete="off" title="Digite seu Nome." value="<?=$nome_cliente?>">
                     </div>
+                    <div class="campos input">
+                        <label for="nome_servico" class="labels labelInput">Nome do Serviço</label>
+                        <input type="text" name="nome_servico" id="nome_servico" class="inputs" autocomplete="off" title="Digite o nome do serviço." value="<?=$nome_servico?>">
+                    </div>
+                    <div class="campos text">
+                        <label for="descricao" class="labels labelText" id="labelText">Descrição</label>
+                        <textarea name="descricao" id="descricao" class="Text" title="Digite a descrição do serviço."><?=$descricao?></textarea>
+                    </div>
+                    
                 </div>
-                
+                <div class="linha"></div>
+                <div class="sep">
+                    
+                    <div class="campos input">
+                        <label for="valor" class="labels labelInput">Valor R$</label>
+                        <input type="number" name="valor" id="valor" class="inputs" step="0.01" min="0" title="Digite o valor do serviço" value="<?=$valor?>">
+                    </div>
+                    <div class="campos check">
+                        <h4>Itens Entregues</h4>
+                        <?php foreach($listaItens as $elem){ ?>
+                            <input type="checkbox" name="item[]" id="<?= $elem ?>" value="<?= $elem ?>"><label for="<?= $elem ?>" class="labelCheck"><?= str_replace('_', ' ', $elem) ?></label><br>
+                        <?php } ?>
+                        <div class="campos input">
+                            <label for="itens" class="labels labelInput">Outros(Separe por vírgulas)</label>
+                            <input type="text" name="item[]" class="inputs" id="itens">
+                        </div>
+                    </div>
+                    
+                </div>
                 <button>Cadastrar</button>
+                
                 <?php if($erro){ ?>
                     <div class="erro"><?=$erro?></div>
                 <?php } ?>

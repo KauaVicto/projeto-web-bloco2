@@ -16,6 +16,7 @@
     $result = mysqli_query($con, $sql);// Busca os dados do banco
 
     $qt = mysqli_num_rows($result);//Pega a quantidade de linhas da consulta
+
 ?>
 
 <!DOCTYPE html>
@@ -27,13 +28,10 @@
     <title>Serviços</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    
 </head>
 <body>
     <?php include "includes/menu.php"; ?>
 
-    
-    
     <main class="container">
         <h2>Você possui <?=$qt?> serviços pendentes.</h2>
         <div class="tabela">
@@ -41,6 +39,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Nome do Cliente</th>
                         <th scope="col">Nome do Serviço</th>
                         <th scope="col">Descrição</th>
                         <th scope="col">Valor</th>
@@ -52,13 +51,14 @@
                     <?php while($servico = mysqli_fetch_assoc($result)){ ?>
                         <tr>
                             <td><?= $servico['id'] ?></th>
-                            <td><?= $servico['nome'] ?></td>
+                            <td><?= $servico['nome_cliente'] ?></td>
+                            <td><?= $servico['nome_servico'] ?></td>
                             <td><?= $servico['descricao'] ?></td>
                             <td>R$<?= number_format($servico['valor'], 2, ',', '.')  ?></td>
                             <td><?= $servico['itens'] ?></td>
                             <td>
-                                <a href="servico_editar.php?id=<?=$servico['id']?>">Editar</a>
-                                <a href="servico_finalizar.php?id=<?=$servico['id']?>">Finalizar</a>
+                                <a href="servico_editar.php?id=<?=$servico['id']?>" title="Editar"><img src="img/editar.svg" alt="Editar"></a>
+                                <a href="servico_finalizar.php?id=<?=$servico['id']?>" title="Finalizar"><img src="img/finalizar.svg" alt="Finalizar"></a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -76,6 +76,10 @@
             </div>
         <?php } ?>
     </main>
-    
+
+    <script src="js/jquery.js"></script>
+    <script>
+        $('.msg, .erro').hide().fadeIn(1000).delay(4000).fadeOut(1000)
+    </script>
 </body>
 </html>

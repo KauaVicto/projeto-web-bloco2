@@ -14,6 +14,7 @@ body{
     width: 100vw;
     height: 100vh;
     position: relative;
+    font-size: 62.5%;
 }
 
 h2{
@@ -28,43 +29,59 @@ h2{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 70vw;
 }
 
 /* ------------------------FORMULÁRIO------------------------- */
 
 .form{
-    height: 70%;
-    width: 30vw;
     margin: 0 auto;
+    height: 100%;
 }
 
 
 
 .form form{
-    width: 100%;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 75%;
+}
+
+.form form .sep{
+    width: 40%;
+    height: 100%;
+}
+.form form .linha{
+    height: 250px;
+    width: 2px;
+    background-color: #767676;
+    opacity: .56;
 }
 
 /* Campos e labels */
 
 .form form .campos.input{
     position: relative;
-    margin-bottom: 10%;
     width: 100%;
     height: 40px;
+    margin: 10% 0;
 }
 .form form .campos.text{
     position: relative;
-    margin: 10% 0;
     width: 100%;
     height: 100px;
+    margin: 10% 0;
 }
 
 .form form .labels{
     position: absolute;
     color: #767676;
     opacity: .56;
-    font-size: 1.1rem;
+    font-size: 1rem;
     transition: .4s all ease-in-out;
 }
 .form form .labelInput{
@@ -81,7 +98,7 @@ h2{
     position: absolute;
     background: none;
     color: #ffffff;
-    font-size: 1.1rem;
+    font-size: 1rem;
     width: 100%;
 }
 
@@ -103,14 +120,16 @@ h2{
 .form form .campos.check h4{
     color: white;
     margin: .5rem 0;
+    font-size: 1rem;
 }
 
 .form form .campos.check .labelCheck{
-    padding: .5rem;
+    padding: 0 .5rem;
     color: #767676;
+    font-size: .9rem;
 }
 .form form .campos.check .campos.input{
-    margin: 3rem 0;
+    margin: 10% 0;
 }
 
 
@@ -118,7 +137,7 @@ h2{
 
 .form form button{
     background-color: #04A777;
-    width: 100%;
+    width: 50%;
     padding: 10px;
     border-radius: 10px;
     color: white;
@@ -129,25 +148,24 @@ h2{
 
 /* MENSAGENS DE ERRO E DE SUCESSO */
 
-.erro{
-    background-color: #d41e1eec;
-    margin: 20px 0;
+.erro, .msg{
+    margin: 20px auto;
+    width: 51%;
     padding: 5px;
     border: 2px solid #ffffff4f;
     border-radius: 5px;
     color: white;
     text-align: center;
+    font-size: 1rem;
+
+}
+.erro{
+    background-color: #d41e1eec;
 }
 .msg{
     background-color: #00b90f8c;
-    margin: 20px 0;
-    padding: 5px;
-    border: 2px solid #aec0b24f;
-    border-radius: 5px;
-    color: white;
-    text-align: center;
 }
-/*-----------------------MENU---------------------- */
+/* -----------------------MENU---------------------- */
 
 .menu{
     background-color: #0D1F2D;
@@ -216,7 +234,7 @@ h2{
     width: 40%;
 }
 
-/* --------------------TABELA-----------------------*/
+/* --------------------TABELA----------------------- */
 
 h2{
     color: white;
@@ -224,4 +242,8 @@ h2{
 
 .tabela{
     background-color: #c3c3c3;
+}
+
+.tabela a{
+    padding: 0 10px;
 }

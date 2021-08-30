@@ -3,7 +3,7 @@ const inputs = document.getElementsByClassName("inputs")
 const inputText = document.getElementById('descricao')
 const labelText = document.getElementById('labelText')
 
-for(let i = 0;i < 3;i++){
+for(let i = 0;i < inputs.length;i++){
     inputs[i].addEventListener('focus', function inputFocus(){
         if(inputs[i].value == ''){
             $(labellogin[i]).css({
@@ -80,3 +80,7 @@ function carregar(){
         })
     }
 }
+
+// Mensagens de erro e sucesso
+
+$('.msg, .erro').hide().fadeIn(1000).delay(4000).fadeOut(1000)

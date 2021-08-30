@@ -3,14 +3,15 @@
     // Declaração das variáveis
     $erro = '';
     $msg = '';
-    $nome = '';
+    $nome_cliente = '';
+    $nome_servico = '';
     $valor = '';
     $descricao = '';
     $itens = [];
     $arrayOutrosItens = [];
     $outrosItens = '';
 
-    $listaItens = ['Gabinete', 'Carregador', 'HD_Externo']; // Lista dos itens já salvos
+    $listaItens = ['Gabinete', 'Carregador', 'HD_Externo', 'Notebook']; // Lista dos itens já salvos
 
     $id = filter_input(INPUT_GET, 'id');
 
@@ -24,7 +25,8 @@
         // Preenche os campos
         $result = mysqli_stmt_get_result($prepare);
         $servico = mysqli_fetch_assoc($result);
-        $nome = $servico['nome'];
+        $nome_cliente = $servico['nome_cliente'];
+        $nome_servico = $servico['nome_servico'];
         $valor = $servico['valor'];
         $descricao = $servico['descricao'];
         $itens = explode(', ', $servico['itens']); // Cria um array com os itens
@@ -60,29 +62,37 @@
         <section class="form">
             <h2>Editar Serviço</h2>
             <form action="servico_acao_editar.php?id=<?= $id ?>" method="post">
-                <div class="campos input">
-                    <label for="nome" class="labels labelInput">Nome do Serviço</label>
-                    <input type="text" name="nome" id="nome" class="inputs" autocomplete="off" title="Digite o nome do serviço." value="<?=$nome?>">
-                </div>
-                <div class="campos input">
-                    <label for="valor" class="labels labelInput">Valor R$</label>
-                    <input type="number" name="valor" id="valor" class="inputs" step="0.01" min="0" title="Digite o valor do serviço" value="<?=$valor?>">
-                </div>
-                <div class="campos text">
-                    <label for="descricao" class="labels labelText" id="labelText">Descrição</label>
-                    <textarea name="descricao" id="descricao" class="Text" title="Digite a descrição do serviço."><?=$descricao?></textarea>
-                </div>
-                
-                <div class="campos check">
-                    <h4>Itens Entregues</h4>
-
-                    <?php foreach($listaItens as $elem){ ?>
-                        <input type="checkbox" name="item[]" id="<?= $elem ?>" value="<?= $elem ?>" <?php echo in_array($elem, $itens) ? 'checked' : ''; ?> ><label for="<?= $elem ?>" class="labelCheck"><?= str_replace('_', ' ', $elem) ?></label><br>
-                    <?php } ?>
-
+                <div class="sep">
                     <div class="campos input">
-                        <label for="itens" class="labels labelInput">Outros(Separe por vírgulas)</label>
-                        <input type="text" name="item[]" class="inputs" id="itens" value="<?= $outrosItens ?>">
+                        <label for="nome_cliente" class="labels labelInput">Nome do Cliente</label>
+                        <input type="text" name="nome_cliente" id="nome_cliente" class="inputs" autocomplete="off" title="Digite seu Nome." value="<?=$nome_cliente?>">
+                    </div>
+                    <div class="campos input">
+                        <label for="nome_servico" class="labels labelInput">Nome do Serviço</label>
+                        <input type="text" name="nome_servico" id="nome_servico" class="inputs" autocomplete="off" title="Digite o nome do serviço." value="<?=$nome_servico?>">
+                    </div>
+                    <div class="campos text">
+                        <label for="descricao" class="labels labelText" id="labelText">Descrição</label>
+                        <textarea name="descricao" id="descricao" class="Text" title="Digite a descrição do serviço."><?=$descricao?></textarea>
+                    </div>
+                </div>
+
+                <div class="sep">
+                    <div class="campos input">
+                        <label for="valor" class="labels labelInput">Valor R$</label>
+                        <input type="number" name="valor" id="valor" class="inputs" step="0.01" min="0" title="Digite o valor do serviço" value="<?=$valor?>">
+                    </div>
+                    
+                    
+                    <div class="campos check">
+                        <h4>Itens Entregues</h4>
+                        <?php foreach($listaItens as $elem){ ?>
+                            <input type="checkbox" name="item[]" id="<?= $elem ?>" value="<?= $elem ?>" <?php echo in_array($elem, $itens) ? 'checked' : ''; ?> ><label for="<?= $elem ?>" class="labelCheck"><?= str_replace('_', ' ', $elem) ?></label><br>
+                        <?php } ?>
+                        <div class="campos input">
+                            <label for="itens" class="labels labelInput">Outros(Separe por vírgulas)</label>
+                            <input type="text" name="item[]" class="inputs" id="itens" value="<?= $outrosItens ?>">
+                        </div>
                     </div>
                 </div>
                 

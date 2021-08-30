@@ -3,10 +3,11 @@ require_once "../includes/conectaBD.php";
 
 $sql = "CREATE TABLE servicos(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50),
+    nome_cliente VARCHAR(50),
+    nome_servico VARCHAR(50),
     descricao VARCHAR(150),
     valor DECIMAL,
-    elementos VARCHAR(150)
+    itens VARCHAR(150)
 )";
 
 if(mysqli_query($con, $sql)){
